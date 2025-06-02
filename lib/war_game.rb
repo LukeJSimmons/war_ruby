@@ -29,10 +29,10 @@
 
   def play_round(cards=[])
     message = ""
-
+    
     cards.unshift(player1.play_card)
     cards.unshift(player2.play_card)
-
+    
     p1_card = cards[1]
     p2_card = cards[0]
 
@@ -43,7 +43,7 @@
       cards.each { |card| player2.add_card(card) }
       message += "Player 2"
     else
-      play_round(cards)
+      play_round(cards) unless player1.hand.empty? || player2.hand.empty?
     end
 
     message += " took "
