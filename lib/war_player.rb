@@ -1,12 +1,17 @@
  
 class WarPlayer
-  attr_reader :hand
+  attr_reader :hand, :name
 
-  def initialize(hand=[])
+  def initialize(name='', hand=[])
     @hand = hand
+    @name = name
   end
 
   def play_card
-    @hand.pop
+    hand.pop
+  end
+
+  def add_card(card)
+    hand.push(card)
   end
 end
