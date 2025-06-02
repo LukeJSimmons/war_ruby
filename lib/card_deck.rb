@@ -8,13 +8,11 @@ class CardDeck
   end
 
   def build_deck
-    new_deck = []
-    for suit in PlayingCard::SUITS do
-      for rank in PlayingCard::RANKS do
-        new_deck << PlayingCard.new(rank, suit)
+    PlayingCard::SUITS.map do |suit|
+      PlayingCard::RANKS.map do |rank|
+        PlayingCard.new(rank, suit)
       end
-    end
-    new_deck
+    end.flatten
   end
 
   def cards_left
