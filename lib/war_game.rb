@@ -6,8 +6,8 @@
 
   def initialize
     @deck = CardDeck.new
-    @player1 = WarPlayer.new('P1')
-    @player2 = WarPlayer.new('P2')
+    @player1 = WarPlayer.new('Player 1')
+    @player2 = WarPlayer.new('Player 2')
   end
 
   def deal_cards
@@ -27,7 +27,28 @@
     return player2 if player1.hand.empty?
   end
 
-  def play_round
-    "P1 plays #{player1.play_card.rank} of #{player1.play_card.suit} | P2 plays #{player2.play_card.rank} of #{player2.play_card.suit}"
+  def play_round(cards=[])
+    message = ""
+
+    cards.unshift(player1.play_card)
+    cards.unshift(player2.play_card)
+
+    p1_card = cards[1]
+    p2_card = cards[0]
+
+    if p1_card.has_greater_value_than?(p2_card)
+      cards.each { |card| player1.add_card(card) }
+      message += "Player 1"
+    elsif p2_card.has_greater_value_than?(p1_card)
+      cards.each { |card| player2.add_card(card) }
+      message += "Player 2"
+    else
+      play_round
+    end
+
+    message += " took "
+    cards[0..cards.count-2].each { |card| message += "#{card.rank} of #{card.suit} with " }
+    message += "#{cards[-1].rank} of #{cards[-1].suit}"
+    message
   end
  end
