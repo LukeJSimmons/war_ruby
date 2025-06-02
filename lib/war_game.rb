@@ -5,9 +5,11 @@
   attr_reader :deck, :player1, :player2
 
   def initialize
-    @deck = CardDeck.new.shuffle
+    @deck = CardDeck.new
     @player1 = WarPlayer.new
     @player2 = WarPlayer.new
+
+    deck.shuffle
   end
 
   def deal_cards
