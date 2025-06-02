@@ -14,10 +14,10 @@ describe 'PlayingCard' do
   end
 
   it 'raises an error unless suit is valid' do
-    expect { PlayingCard.new('A', 'Z') }.to raise_error
+    expect { PlayingCard.new('A', 'Z') }.to raise_error StandardError
   end
 
   it 'raises an error unless rank is valid' do
-    expect { PlayingCard.new('25', 'C') }.to raise_error
+    expect { PlayingCard.new('25', 'C') }.to raise_error StandardError
   end
 end

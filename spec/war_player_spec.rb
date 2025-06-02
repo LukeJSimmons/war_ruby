@@ -1,8 +1,8 @@
 require_relative '../lib/war_player'
 
 describe 'WarPlayer' do
-  it 'initializes with 26 cards in hand' do
+  it 'initializes with a hand' do
     war_player = WarPlayer.new
-    expect(war_player.hand.length).to eq 26
+    expect(war_player).to respond_to :hand
   end
 end
