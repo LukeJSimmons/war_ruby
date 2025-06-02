@@ -1,10 +1,11 @@
 require_relative '../lib/playing_card'
 
 describe 'PlayingCard' do
-  it 'initializes with a rank and suit' do
+  it 'initializes with a rank, suit, and value' do
     card = PlayingCard.new('A', 'H')
     expect(card.rank).to eq 'A'
     expect(card.suit).to eq 'H'
+    expect(card.value).to eq 12
   end
 
   it 'compares by proper card values' do
@@ -19,5 +20,11 @@ describe 'PlayingCard' do
 
   it 'raises an error unless rank is valid' do
     expect { PlayingCard.new('25', 'C') }.to raise_error StandardError
+  end
+
+  it 'returns true if card is greater than other cards value' do
+    card1 = PlayingCard.new('A', 'H')
+    card2 = PlayingCard.new('Q', 'H')
+    expect(card1.has_greater_value_than?(card2)).to eq true
   end
 end
