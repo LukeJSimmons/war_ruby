@@ -23,8 +23,9 @@ describe 'CardDeck' do
 
   it 'should be able to shuffle deck' do
     deck = CardDeck.new
-    unshuffled_deck = deck
-    shuffled_cards = deck.shuffle
-    expect(shuffled_cards).to_not eq(unshuffled_deck.cards)
+    unshuffled_deck = CardDeck.new
+    expect(deck).to eq unshuffled_deck
+    deck.shuffle!
+    expect(deck).to_not eq(unshuffled_deck)
   end
 end
