@@ -43,7 +43,7 @@
       cards.each { |card| player2.add_card(card) }
       message += "Player 2"
     else
-      play_round
+      play_round(cards)
     end
 
     message += " took "

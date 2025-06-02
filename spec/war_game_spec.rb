@@ -34,6 +34,17 @@ describe 'WarGame' do
     expect(game.player2.hand.count).to eq 0
   end
 
+  it 'handles a tie properly' do
+    game = WarGame.new
+    game.player1.add_card(PlayingCard.new('2','Hearts'))
+    game.player2.add_card(PlayingCard.new('10','Hearts'))
+    game.player1.add_card(PlayingCard.new('A', 'Clubs'))
+    game.player2.add_card(PlayingCard.new('A', 'Hearts'))
+    game.play_round
+    expect(game.player1.hand.count).to eq 0
+    expect(game.player2.hand.count).to eq 4
+  end
+
   it 'displays an overview message each round' do
     game = WarGame.new
     p1_card = PlayingCard.new('A','Hearts')
