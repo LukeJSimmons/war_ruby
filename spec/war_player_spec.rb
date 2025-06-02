@@ -9,7 +9,7 @@ describe 'WarPlayer' do
   end
 
   it 'plays top card in hand' do
-    war_player = WarPlayer.new('',[PlayingCard.new('A','H')])
+    war_player = WarPlayer.new('',[PlayingCard.new('A','Hearts')])
     top_card = war_player.hand[0]
     played_card = war_player.play_card
     expect(played_card).to eq top_card
@@ -17,8 +17,8 @@ describe 'WarPlayer' do
   end
 
   it 'adds card to bottom of deck' do
-    war_player = WarPlayer.new('',[PlayingCard.new('A','H')])
-    new_card = PlayingCard.new('Q','H')
+    war_player = WarPlayer.new('',[PlayingCard.new('A','Hearts')])
+    new_card = PlayingCard.new('Q','Hearts')
     war_player.add_card(new_card)
     expect(war_player.hand.last).to eq new_card
   end
