@@ -15,6 +15,14 @@ describe 'WarGame' do
     expect(game.player2.hand.length).to eq 26
   end
 
+  it 'returns player1 if he is the winner' do
+    game = WarGame.new
+    p1_card = PlayingCard.new('A','Hearts')
+    game.player1.add_card(p1_card)
+    expect(game.winner).to eq game.player1
+    expect(game.winner).to_not eq game.player2
+  end
+
   it 'gives P2 card to P1 if P1 wins round' do
     game = WarGame.new
     p1_card = PlayingCard.new('A','Hearts')
