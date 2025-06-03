@@ -10,11 +10,7 @@ class WarPlayer
     hand.pop
   end
 
-  def add_card(card)
-    if card.is_a? Array
-      hand.unshift(*card)
-    else
-      hand.unshift(card)
-    end
+  def add_card(cards)
+    hand.unshift(*Array(cards))
   end
 end

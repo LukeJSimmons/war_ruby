@@ -22,8 +22,8 @@ describe 'WarGame' do
 
   it 'deals half the deck to each player' do
     game.start
-    expect(game.player1.hand.length).to eq 26
-    expect(game.player2.hand.length).to eq 26
+    expect(game.player1.hand.length).to eq CardDeck::BASE_DECK_SIZE/2
+    expect(game.player2.hand.length).to eq CardDeck::BASE_DECK_SIZE/2
   end
 
   it 'returns player1 if he is the winner' do
@@ -31,6 +31,13 @@ describe 'WarGame' do
     game.player1.add_card(p1_card)
     expect(game.winner).to eq game.player1
     expect(game.winner).to_not eq game.player2
+  end
+
+  it 'returns player2 if he is the winner' do
+    p2_card = PlayingCard.new('A', '♥')
+    game.player2.add_card(p2_card)
+    expect(game.winner).to eq game.player2
+    expect(game.winner).to_not eq game.player1
   end
 
   it 'gives P2 card to P1 if P1 wins round' do

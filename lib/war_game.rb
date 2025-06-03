@@ -28,9 +28,9 @@ class WarGame
     p1_card = player1.play_card
     p2_card = player2.play_card
     cards.push(p1_card, p2_card).shuffle!
-    winner = get_round_winner(p1_card, p2_card, cards)
-    play_round(cards) unless winner || player1.hand.empty? || player2.hand.empty?
-    display_message(winner, cards)
+    round_winner = get_round_winner(p1_card, p2_card, cards)
+    return play_round(cards) unless round_winner || winner
+    display_message(round_winner, cards)
   end
 
   private
@@ -45,16 +45,16 @@ class WarGame
   def get_round_winner(p1_card, p2_card, cards)
     if p1_card.has_greater_value_than?(p2_card)
       cards.each { |card| player1.add_card(card) }
-      'Player 1'
+      player1
     elsif p2_card.has_greater_value_than?(p1_card)
       cards.each { |card| player2.add_card(card) }
-      'Player 2'
+      player2
     end
   end
 
   def display_message(winner, cards)
     message = ''
-    message += "#{winner} took "
+    message += "#{winner.name} took "
     cards.each_with_index do |card, index|
       message += "#{card.rank} of #{card.suit} with " unless index == cards.count - 1
     end
