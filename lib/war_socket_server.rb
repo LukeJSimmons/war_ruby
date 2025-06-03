@@ -39,8 +39,17 @@ class WarSocketServer
   def create_game_if_possible
     return unless players.count == 2
 
-    games << WarGame.new
-    clients.each { |client| client.puts "War is starting..." }
+    game = WarGame.new
+    game.start
+    games << game
+    clients.each do |client|
+      client.puts "War is starting..."
+      while input = client.gets
+        puts input
+      end
+      client.close
+    end
+    game.play_round
   end
 
   def stop
