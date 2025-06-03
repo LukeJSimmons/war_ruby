@@ -1,13 +1,25 @@
 require_relative 'war_game'
 
+show_output = true
 total_games = 1000
 games = []
+
+puts "Do you want to show the game output?"
+input = gets.chomp
+show_output = input == 'yes' ? true : false
+
+puts "How many games would you like it to play?"
+total_games = gets.chomp.to_i
 
 total_games.times do
   game = WarGame.new
   game.start
-  puts game.play_round until game.winner
-  puts "Winner: #{game.winner.name}"
+  if show_output
+    puts game.play_round until game.winner
+    puts "Winner: #{game.winner.name}"
+  else
+    game.play_round until game.winner
+  end
   games << game
 end
 
