@@ -1,7 +1,7 @@
- require_relative 'card_deck'
- require_relative 'war_player'
- 
- class WarGame
+require_relative 'card_deck'
+require_relative 'war_player'
+
+class WarGame
   attr_reader :deck, :player1, :player2
   attr_accessor :rounds
 
@@ -19,15 +19,16 @@
 
   def winner
     return player1 if player2.hand.empty?
-    return player2 if player1.hand.empty?
+
+    player2 if player1.hand.empty?
   end
 
-  def play_round(cards=[])
+  def play_round(cards = [])
     self.rounds += 1
     p1_card = player1.play_card
     p2_card = player2.play_card
     cards.push(p1_card, p2_card).shuffle!
-    winner = get_round_winner(p1_card,p2_card,cards)
+    winner = get_round_winner(p1_card, p2_card, cards)
     play_round(cards) unless winner || player1.hand.empty? || player2.hand.empty?
     display_message(winner, cards)
   end
@@ -41,21 +42,23 @@
     end
   end
 
-  def get_round_winner(p1_card,p2_card,cards)
+  def get_round_winner(p1_card, p2_card, cards)
     if p1_card.has_greater_value_than?(p2_card)
       cards.each { |card| player1.add_card(card) }
-      return "Player 1"
+      'Player 1'
     elsif p2_card.has_greater_value_than?(p1_card)
       cards.each { |card| player2.add_card(card) }
-      return "Player 2"
+      'Player 2'
     end
   end
 
   def display_message(winner, cards)
-    message = ""
+    message = ''
     message += "#{winner} took "
-    cards.each_with_index { |card, index| message += "#{card.rank} of #{card.suit} with " unless index == cards.count-1 }
+    cards.each_with_index do |card, index|
+      message += "#{card.rank} of #{card.suit} with " unless index == cards.count - 1
+    end
     message += "#{"#{cards[-1].rank} of #{cards[-1].suit}"}"
     message
   end
- end
+end

@@ -9,7 +9,7 @@ describe 'WarPlayer' do
   end
 
   it 'plays last card in hand' do
-    war_player = WarPlayer.new('',[PlayingCard.new('A','♥'),PlayingCard.new('A','♣')])
+    war_player = WarPlayer.new('', [PlayingCard.new('A', '♥'), PlayingCard.new('A', '♣')])
     top_card = war_player.hand[-1]
     played_card = war_player.play_card
     expect(played_card).to eq top_card
@@ -17,15 +17,15 @@ describe 'WarPlayer' do
   end
 
   it 'adds card to first spot of deck' do
-    war_player = WarPlayer.new('',[PlayingCard.new('A','♥')])
-    new_card = PlayingCard.new('Q','♥')
+    war_player = WarPlayer.new('', [PlayingCard.new('A', '♥')])
+    new_card = PlayingCard.new('Q', '♥')
     war_player.add_card(new_card)
     expect(war_player.hand[0]).to eq new_card
   end
 
   it 'can add multiple cards at once' do
-    war_player = WarPlayer.new('',[PlayingCard.new('A','♥')])
-    new_cards = [PlayingCard.new('Q','♥'),PlayingCard.new('2','♥')]
+    war_player = WarPlayer.new('', [PlayingCard.new('A', '♥')])
+    new_cards = [PlayingCard.new('Q', '♥'), PlayingCard.new('2', '♥')]
     war_player.add_card(new_cards)
     expect(war_player.hand[0..1]).to eq new_cards
   end

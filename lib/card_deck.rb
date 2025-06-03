@@ -21,10 +21,10 @@ class CardDeck
     cards.shuffle!
   end
 
-  def ==(other_deck)
-    cards == other_deck.cards
+  def ==(other)
+    cards == other.cards
   end
-  
+
   private
 
   def build_deck
