@@ -8,18 +8,18 @@ describe 'WarPlayer' do
     expect(war_player).to respond_to :name
   end
 
-  it 'plays top card in hand' do
-    war_player = WarPlayer.new('',[PlayingCard.new('A','Hearts')])
-    top_card = war_player.hand[0]
+  it 'plays last card in hand' do
+    war_player = WarPlayer.new('',[PlayingCard.new('A','Hearts'),PlayingCard.new('A','Clubs')])
+    top_card = war_player.hand[-1]
     played_card = war_player.play_card
     expect(played_card).to eq top_card
     expect(played_card).to respond_to :suit
   end
 
-  it 'adds card to bottom of deck' do
+  it 'adds card to first spot of deck' do
     war_player = WarPlayer.new('',[PlayingCard.new('A','Hearts')])
     new_card = PlayingCard.new('Q','Hearts')
     war_player.add_card(new_card)
-    expect(war_player.hand.last).to eq new_card
+    expect(war_player.hand[0]).to eq new_card
   end
 end

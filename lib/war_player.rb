@@ -12,6 +12,6 @@ class WarPlayer
   end
 
   def add_card(card)
-    hand.push(card)
+    hand.unshift(card)
   end
 end
