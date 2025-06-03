@@ -11,8 +11,14 @@ describe 'WarGame' do
     expect(@game).to respond_to :player2
   end
 
+  it 'shuffles the deck' do
+    unshuffled_deck = CardDeck.new
+    @game.start
+    expect(@game.deck).to_not eq unshuffled_deck
+  end
+
   it 'deals half the deck to each player' do
-    @game.deal_cards
+    @game.start
     expect(@game.player1.hand.length).to eq 26
     expect(@game.player2.hand.length).to eq 26
   end

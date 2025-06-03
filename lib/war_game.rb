@@ -10,13 +10,6 @@
     @player2 = WarPlayer.new('Player 2')
   end
 
-  def deal_cards
-    (CardDeck::BASE_DECK_SIZE / 2).times do
-      player1.add_card(deck.deal)
-      player2.add_card(deck.deal)
-    end
-  end
-
   def start
     deck.shuffle!
     deal_cards
@@ -31,16 +24,28 @@
     p1_card = player1.play_card
     p2_card = player2.play_card
     cards.push(p1_card, p2_card).shuffle!
-    winner = if p1_card.has_greater_value_than?(p2_card)
+    winner = get_round_winner(p1_card,p2_card,cards)
+    play_round(cards) unless winner || player1.hand.empty? || player2.hand.empty?
+    display_message(winner, cards)
+  end
+
+  private
+
+  def deal_cards
+    (CardDeck::BASE_DECK_SIZE / 2).times do
+      player1.add_card(deck.deal)
+      player2.add_card(deck.deal)
+    end
+  end
+
+  def get_round_winner(p1_card,p2_card,cards)
+    if p1_card.has_greater_value_than?(p2_card)
       cards.each { |card| player1.add_card(card) }
-      "Player 1"
+      return "Player 1"
     elsif p2_card.has_greater_value_than?(p1_card)
       cards.each { |card| player2.add_card(card) }
-      "Player 2"
-    else
-      play_round(cards) unless player1.hand.empty? || player2.hand.empty?
+      return "Player 2"
     end
-    display_message(winner, cards)
   end
 
   def display_message(winner, cards)
