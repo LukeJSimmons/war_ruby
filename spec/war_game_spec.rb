@@ -53,4 +53,15 @@ describe 'WarGame' do
     game.player2.add_card(p2_card)
     expect(game.play_round).to eq "Player 1 took 2 of Hearts with A of Hearts"
   end
+
+  it 'displays tie message when players tie' do
+    game = WarGame.new
+    p1_card = PlayingCard.new('A','Hearts')
+    p2_card = PlayingCard.new('2','Hearts')
+    p1_card = PlayingCard.new('A','Clubs')
+    p2_card = PlayingCard.new('A','Diamonds')
+    game.player1.add_card(p1_card)
+    game.player2.add_card(p2_card)
+    expect(game.play_round).to eq " took A of Diamonds with A of Clubs"
+  end
 end
