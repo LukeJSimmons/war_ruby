@@ -29,12 +29,11 @@
 
   def play_round(cards=[])
     message = ""
+
+    p1_card = player1.play_card
+    p2_card = player2.play_card
     
-    cards.unshift(player1.play_card)
-    cards.unshift(player2.play_card)
-    
-    p1_card = cards[1]
-    p2_card = cards[0]
+    cards.push(p1_card, p2_card).shuffle!
 
     if p1_card.has_greater_value_than?(p2_card)
       cards.each { |card| player1.add_card(card) }
@@ -47,8 +46,9 @@
     end
 
     message += " took "
-    cards[0..cards.count-2].each { |card| message += "#{card.rank} of #{card.suit} with " }
+    cards.each_with_index { |card, index| message += "#{card.rank} of #{card.suit} with " unless index == cards.count-1 }
     message += "#{cards[-1].rank} of #{cards[-1].suit}"
+    cards = []
     message
   end
  end
