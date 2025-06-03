@@ -71,9 +71,10 @@ describe 'WarGame' do
   end
 
   it 'increments rounds by one each round' do
+    starting_round = @game.rounds
     @game.start
     @game.play_round
-    expect(@game.rounds).to eq 1
+    expect(@game.rounds).to eq starting_round + 1
   end
 
   it 'can play a whole game' do

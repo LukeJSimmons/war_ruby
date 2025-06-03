@@ -24,7 +24,7 @@ class WarGame
   end
 
   def play_round(cards = [])
-    self.rounds += 1
+    self.rounds += 1 if cards.empty?
     p1_card = player1.play_card
     p2_card = player2.play_card
     cards.push(p1_card, p2_card).shuffle!
