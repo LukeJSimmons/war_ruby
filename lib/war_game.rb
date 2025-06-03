@@ -23,14 +23,14 @@ class WarGame
     player2 if player1.hand.empty?
   end
 
-  def play_round(cards = [])
-    self.rounds += 1 if cards.empty?
+  def play_round(pot = [])
+    self.rounds += 1 if pot.empty?
     p1_card = player1.play_card
     p2_card = player2.play_card
-    cards.push(p1_card, p2_card).shuffle!
-    round_winner = get_round_winner(p1_card, p2_card, cards)
-    return play_round(cards) unless round_winner || winner
-    display_message(round_winner, cards) if round_winner
+    pot.push(p1_card, p2_card).shuffle!
+    round_winner = get_round_winner(p1_card, p2_card, pot)
+    return play_round(pot) unless round_winner || winner
+    display_message(round_winner, pot) if round_winner
   end
 
   private
@@ -42,23 +42,23 @@ class WarGame
     end
   end
 
-  def get_round_winner(p1_card, p2_card, cards)
+  def get_round_winner(p1_card, p2_card, pot)
     if p1_card.has_greater_value_than?(p2_card)
-      cards.each { |card| player1.add_card(card) }
+      pot.each { |card| player1.add_card(card) }
       player1
     elsif p2_card.has_greater_value_than?(p1_card)
-      cards.each { |card| player2.add_card(card) }
+      pot.each { |card| player2.add_card(card) }
       player2
     end
   end
 
-  def display_message(winner, cards)
+  def display_message(winner, pot)
     message = ''
     message += "#{winner.name} took "
-    cards.each_with_index do |card, index|
-      message += "#{card.rank} of #{card.suit} with " unless index == cards.count - 1
+    pot.each do |card|
+      message += "#{card.rank} of #{card.suit} with " unless card == pot.last
     end
-    message += "#{"#{cards[-1].rank} of #{cards[-1].suit}"}"
+    message += "#{"#{pot.last.rank} of #{pot.last.suit}"}"
     message
   end
 end
