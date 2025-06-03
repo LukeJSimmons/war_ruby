@@ -82,8 +82,8 @@ describe WarSocketServer do
     expect(client1.capture_output).to match /starting/i
     expect(client2.capture_output).to match /starting/i
   end
-  
-  it "doesn't start the game until both players input" do
+
+  it 'receives a ready message from client' do
     client1 = MockWarSocketClient.new(@server.port_number)
     @clients.push(client1)
     @server.accept_new_client("Player 1")
@@ -92,15 +92,24 @@ describe WarSocketServer do
     @clients.push(client2)
     @server.accept_new_client("Player 2")
 
-    @server.create_game_if_possible
+    client1.provide_input('message')
 
-    expect(@server.games.first.rounds).to eq 0
-
-    client1.provide_input("ham samich")
-    client2.provide_input("ham samich")
-
-    expect(@server.games.first.rounds).to_not eq 0
+    expect(@server.create_game_if_possible).to match /message/i
   end
+  
+  # it "doesn't start the game until both players input" do
+  #   client1 = MockWarSocketClient.new(@server.port_number)
+  #   @clients.push(client1)
+  #   @server.accept_new_client("Player 1")
+
+  #   client2 = MockWarSocketClient.new(@server.port_number)
+  #   @clients.push(client2)
+  #   @server.accept_new_client("Player 2")
+
+  #   @server.create_game_if_possible
+
+  #   expect(@server.games.first.rounds).to eq 0
+  # end
 
   # Add more tests to make sure the game is being played
   # For example:

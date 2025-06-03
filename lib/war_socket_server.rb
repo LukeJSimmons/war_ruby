@@ -42,14 +42,14 @@ class WarSocketServer
     game = WarGame.new
     game.start
     games << game
-    clients.each do |client|
-      client.puts "War is starting..."
-      while input = client.gets
-        puts input
-      end
-      client.close
+    clients.each { |client| client.puts "War is starting..." }
+    begin
+      sleep(0.1)
+      input = clients.first.read_nonblock(1000)
+    rescue IO::WaitReadable
     end
-    game.play_round
+    input
+    # game.play_round
   end
 
   def stop
