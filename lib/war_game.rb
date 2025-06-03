@@ -3,11 +3,13 @@
  
  class WarGame
   attr_reader :deck, :player1, :player2
+  attr_accessor :rounds
 
   def initialize
     @deck = CardDeck.new
     @player1 = WarPlayer.new('Player 1')
     @player2 = WarPlayer.new('Player 2')
+    @rounds = 0
   end
 
   def start
@@ -21,6 +23,7 @@
   end
 
   def play_round(cards=[])
+    self.rounds += 1
     p1_card = player1.play_card
     p2_card = player2.play_card
     cards.push(p1_card, p2_card).shuffle!

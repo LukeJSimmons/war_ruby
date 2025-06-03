@@ -18,9 +18,9 @@ ruby lib/war_runner.rb
 produces something like:
 ```
 [… lots of stuff deleted …]
-Player 2 took 4 of Hearts with 10 of Spades
-Player 1 took 7 of Spades with K of Hearts
-Player 1 took 4 of Hearts, 10 of Hearts, 10 of Spades with K of Hearts after a single tie
+Player 2 took 4 of ♥ with 10 of ♠s
+Player 1 took 7 of ♠s with K of ♥
+Player 1 took 4 of ♥, 10 of ♥, 10 of ♠s with K of ♥ after a single tie
 Winner: Player 1
 ```
 
