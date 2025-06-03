@@ -22,4 +22,11 @@ describe 'WarPlayer' do
     war_player.add_card(new_card)
     expect(war_player.hand[0]).to eq new_card
   end
+
+  it 'can add multiple cards at once' do
+    war_player = WarPlayer.new('',[PlayingCard.new('A','Hearts')])
+    new_cards = [PlayingCard.new('Q','Hearts'),PlayingCard.new('2','Hearts')]
+    war_player.add_card(new_cards)
+    expect(war_player.hand[0..1]).to eq new_cards
+  end
 end
