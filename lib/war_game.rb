@@ -30,7 +30,7 @@ class WarGame
     cards.push(p1_card, p2_card).shuffle!
     round_winner = get_round_winner(p1_card, p2_card, cards)
     return play_round(cards) unless round_winner || winner
-    display_message(round_winner, cards)
+    display_message(round_winner, cards) if round_winner
   end
 
   private
