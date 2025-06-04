@@ -98,6 +98,36 @@ describe WarSocketServer do
       end
     end
 
+    describe '#run_game' do
+      it 'displays continue message' do
+        game = @server.create_game_if_possible
+
+        expect {
+          @server.run_round(game)
+        }.to change(client1, :capture_output).to match /continue/i
+      end
+
+      it 'displays round info message' do
+        client1.provide_input("\n")
+        client2.provide_input("\n")
+        game = @server.create_game_if_possible
+
+        expect {
+          @server.run_round(game)
+        }.to change(client1, :capture_output).to match /took/i
+      end
+
+      it 'displays winner message' do
+        client1.provide_input("\n")
+        client2.provide_input("\n")
+        game = @server.create_game_if_possible
+
+        expect {
+          @server.run_round(game)
+        }.to change(client1, :capture_output).to match /winner/i
+      end
+    end
+
     describe '#run_round' do
       it 'does not play the round unless clients give input' do
         game = @server.create_game_if_possible

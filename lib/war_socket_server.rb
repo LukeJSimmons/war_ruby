@@ -55,7 +55,7 @@ class WarSocketServer
 
   def run_round(game)
     responses = []
-    # #TODO: Loop of some kind here
+
     sleep(0.1)
     begin
       clients.each do |client|
@@ -64,7 +64,11 @@ class WarSocketServer
       end
     rescue IO::WaitReadable
     end
-    game.play_round if responses.count > 1
+
+    if responses.count > 1
+      round_results = game.play_round
+      clients.each { |client| client.puts round_results }
+    end
   end
 
   def stop

@@ -12,7 +12,7 @@ class FakeWarGame
   end
 
   def suit
-    %w[♣ ♦ ♥ ♠s].sample
+    %w[Clubs Diamonds Hearts Spadess].sample
   end
 
   def winner

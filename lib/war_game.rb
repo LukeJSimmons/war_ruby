@@ -54,7 +54,7 @@ class WarGame
 
   def display_message(winner, pot)
     message = ''
-    message += "#{winner.name} took "
+    message += "ROUND #{rounds} | #{winner.name} took "
     pot.each do |card|
       message += "#{card.rank} of #{card.suit} with " unless card == pot.last
     end
