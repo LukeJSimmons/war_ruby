@@ -39,7 +39,7 @@ class WarSocketServer
   def create_game_if_possible
     return unless players.count == 2
 
-    # clients.each { |client| client.puts "We're ready to start" }
+    clients.each { |client| client.puts "We're ready to start" }
 
     game = WarGame.new
     game.start
@@ -48,6 +48,12 @@ class WarSocketServer
   end
 
   def run_game(game)
+    until game.winner
+      run_round(game)
+    end
+  end
+
+  def run_round(game)
     responses = []
     # #TODO: Loop of some kind here
     sleep(0.1)

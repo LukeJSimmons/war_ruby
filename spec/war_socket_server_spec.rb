@@ -98,12 +98,12 @@ describe WarSocketServer do
       end
     end
 
-    describe '#run_game' do
+    describe '#run_round' do
       it 'does not play the round unless clients give input' do
         game = @server.create_game_if_possible
         
         expect {
-          @server.run_game(game)
+          @server.run_round(game)
         }.to_not change(game, :rounds)
       end
 
@@ -113,7 +113,7 @@ describe WarSocketServer do
         client2.provide_input('ready')
         
         expect {
-          @server.run_game(game)
+          @server.run_round(game)
         }.to change(game, :rounds).by 1
       end
     end
