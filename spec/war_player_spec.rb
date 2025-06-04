@@ -3,10 +3,11 @@ require_relative '../lib/playing_card'
 
 describe 'WarPlayer' do
   describe '#initialize' do
-    it 'initializes with a hand and name' do
+    it 'initializes with a hand, name, and client' do
       war_player = WarPlayer.new
       expect(war_player).to respond_to :hand
       expect(war_player).to respond_to :name
+      expect(war_player).to respond_to :client
     end
   end
 

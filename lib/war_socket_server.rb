@@ -32,7 +32,7 @@ class WarSocketServer
 
   def accept_new_client(player_name = "Random Player")
     client = @server.accept_nonblock
-    players << WarPlayer.new(player_name)
+    players << WarPlayer.new(player_name,[],client)
     clients << client
     client.puts "Welcome to war!"
     # associate player and client
