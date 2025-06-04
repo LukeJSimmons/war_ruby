@@ -28,7 +28,7 @@ class WarSocketServer
 
   def accept_new_client(player_name = "Random Player")
     client = @server.accept_nonblock
-    players << WarPlayer.new
+    players << WarPlayer.new(player_name)
     clients << client
     client.puts "Welcome to war!"
     # associate player and client
@@ -39,17 +39,26 @@ class WarSocketServer
   def create_game_if_possible
     return unless players.count == 2
 
+    # clients.each { |client| client.puts "We're ready to start" }
+
     game = WarGame.new
     game.start
     games << game
-    clients.each { |client| client.puts "War is starting..." }
+    game
+  end
+
+  def run_game(game)
+    responses = []
+    # #TODO: Loop of some kind here
+    sleep(0.1)
     begin
-      sleep(0.1)
-      input = clients.first.read_nonblock(1000)
+      clients.each do |client|
+        client.puts "Press any key to continue"
+        responses << client.read_nonblock(1000)
+      end
     rescue IO::WaitReadable
     end
-    input
-    # game.play_round
+    game.play_round if responses.count > 1
   end
 
   def stop
