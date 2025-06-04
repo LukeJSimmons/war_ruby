@@ -15,7 +15,7 @@ class MockWarSocketClient
 
   def capture_output(delay=0.1)
     sleep(delay)
-    @output = @socket.read_nonblock(1000) # not gets which blocks
+    @output = @socket.read_nonblock(100000) # not gets which blocks
   rescue IO::WaitReadable
     @output = ""
   end
@@ -99,11 +99,15 @@ describe WarSocketServer do
     end
 
     describe '#run_game' do
+      before do
+        @server.needs_client_input = false
+      end
+      
       it 'displays continue message' do
         game = @server.create_game_if_possible
 
         expect {
-          @server.run_round(game)
+          @server.run_game(game)
         }.to change(client1, :capture_output).to match /continue/i
       end
 
@@ -113,17 +117,15 @@ describe WarSocketServer do
         game = @server.create_game_if_possible
 
         expect {
-          @server.run_round(game)
+          @server.run_game(game)
         }.to change(client1, :capture_output).to match /took/i
       end
 
       it 'displays winner message' do
-        client1.provide_input("\n")
-        client2.provide_input("\n")
         game = @server.create_game_if_possible
 
         expect {
-          @server.run_round(game)
+          @server.run_game(game)
         }.to change(client1, :capture_output).to match /winner/i
       end
     end
