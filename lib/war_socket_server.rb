@@ -3,10 +3,11 @@ require_relative 'war_game'
 require_relative 'war_player'
 
 class WarSocketServer
-  attr_accessor :needs_client_input
+  attr_accessor :needs_client_input, :responses
 
   def initialize
     @needs_client_input = true
+    @responses = []
   end
 
   def port_number
@@ -58,19 +59,17 @@ class WarSocketServer
   end
 
   def run_round(game)
-    responses = []
-
-    sleep(0.1) if needs_client_input
-    begin
-      clients.each do |client|
+    clients.each do |client|
+      sleep(0.1) if needs_client_input
+      begin
         responses << client.read_nonblock(1000)
+      rescue IO::WaitReadable
       end
-    rescue IO::WaitReadable
     end
 
-    puts responses.count unless responses.count == 0
     if responses.count > 1 || !needs_client_input
       round_results = game.play_round
+      responses.clear
       clients.each { |client| client.puts round_results }
     end
   end

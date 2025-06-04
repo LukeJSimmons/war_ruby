@@ -15,7 +15,7 @@ class MockWarSocketClient
 
   def capture_output(delay=0.1)
     sleep(delay)
-    @output = @socket.read_nonblock(100000) # not gets which blocks
+    @output = @socket.read_nonblock(150000) # not gets which blocks
   rescue IO::WaitReadable
     @output = ""
   end
@@ -131,7 +131,7 @@ describe WarSocketServer do
         }.to_not change(game, :rounds)
       end
 
-      it 'plays the round once clients give input' do
+      it 'plays the round once both clients give input' do
         game = @server.create_game_if_possible
         client1.provide_input('ready')
         client2.provide_input('ready')
@@ -140,6 +140,34 @@ describe WarSocketServer do
           @server.run_round(game)
         }.to change(game, :rounds).by 1
       end
+      it 'does not play the round if only one client inputs twice' do
+        game = @server.create_game_if_possible
+        client1.provide_input('first')
+        client1.provide_input('second')
+        
+        expect {
+          @server.run_round(game)
+        }.to_not change(game, :rounds)
+      end
+
+      it 'adds client1 input to responses' do
+        game = @server.create_game_if_possible
+        client1.provide_input('first')
+        
+        expect {
+          @server.run_round(game)
+        }.to change(@server, :responses).to ["first\n"]
+      end
+
+      it 'adds client2 input to responses' do
+        game = @server.create_game_if_possible
+        client2.provide_input('first')
+        
+        expect {
+          @server.run_round(game)
+        }.to change(@server, :responses).to ["first\n"]
+      end
+
     end
   end
 
