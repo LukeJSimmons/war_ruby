@@ -102,14 +102,6 @@ describe WarSocketServer do
       before do
         @server.needs_client_input = false
       end
-      
-      it 'displays continue message' do
-        game = @server.create_game_if_possible
-
-        expect {
-          @server.run_game(game)
-        }.to change(client1, :capture_output).to match /continue/i
-      end
 
       it 'displays round info message' do
         client1.provide_input("\n")

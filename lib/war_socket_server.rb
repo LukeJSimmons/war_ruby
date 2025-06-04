@@ -36,7 +36,7 @@ class WarSocketServer
     client.puts "Welcome to war!"
     # associate player and client
   rescue IO::WaitReadable, Errno::EINTR
-    puts "No client to accept"
+    # puts "No client to accept"
   end
 
   def create_game_if_possible
@@ -63,12 +63,12 @@ class WarSocketServer
     sleep(0.1) if needs_client_input
     begin
       clients.each do |client|
-        client.puts "Press any key to continue"
         responses << client.read_nonblock(1000)
       end
     rescue IO::WaitReadable
     end
 
+    puts responses.count unless responses.count == 0
     if responses.count > 1 || !needs_client_input
       round_results = game.play_round
       clients.each { |client| client.puts round_results }
