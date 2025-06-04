@@ -30,8 +30,15 @@ class WarSocketServer
     @server = TCPServer.new(port_number)
   end
 
-  def accept_new_client(player_name = "Random Player")
+  def accept_new_client(player_name="Random Player")
     client = @server.accept_nonblock
+
+    unless player_name
+      client.puts "Please input your name:"
+      name = client.read_nonblock(1000)
+      client.puts "Hi #{name}!" if name
+    end
+
     players << WarPlayer.new(player_name,[],client)
     clients << client
     client.puts "Welcome to war!"

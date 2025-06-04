@@ -50,11 +50,25 @@ describe WarSocketServer do
 
     before do
       @clients.push(client1)
-      @server.accept_new_client("Player 1")
     end
+
+    describe '#accept_new_client' do
+      it 'asks for client player name' do
+        @server.accept_new_client(nil)
+        expect(client1.capture_output). to match /name/i
+      end
+
+      it 'client can send player name' do
+        client1.provide_input('jim')
+        @server.accept_new_client(nil)
+        expect(client1.capture_output).to match /jim/i
+      end
+    end
+
 
     describe '#create_game_if_possible' do
       it 'returns nil if only one player' do
+          @server.accept_new_client("Player 1")
           expect(@server.create_game_if_possible).to eq nil
       end
     end
