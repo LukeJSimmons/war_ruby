@@ -203,43 +203,4 @@ describe WarSocketServer do
       end
     end
   end
-
-  #TODO: Write tests for run_game
-  
-  # it "doesn't start the game until both players input" do
-  #   client1 = MockWarSocketClient.new(@server.port_number)
-  #   @clients.push(client1)
-  #   @server.accept_new_client("Player 1")
-
-  #   client2 = MockWarSocketClient.new(@server.port_number)
-  #   @clients.push(client2)
-  #   @server.accept_new_client("Player 2")
-
-  #   @server.create_game_if_possible
-
-  #   expect(@server.games.first.rounds).to eq 0
-  # end
-
-  # it "starts the game until both players input" do
-  #   client1 = MockWarSocketClient.new(@server.port_number)
-  #   @clients.push(client1)
-  #   @server.accept_new_client("Player 1")
-
-  #   client2 = MockWarSocketClient.new(@server.port_number)
-  #   @clients.push(client2)
-  #   @server.accept_new_client("Player 2")
-
-  #   client1.provide_input('message')
-  #   client2.provide_input('message')
-
-  #   @server.create_game_if_possible
-
-  #   expect(@server.games.first.rounds).to eq 1
-  # end
-
-  # Add more tests to make sure the game is being played
-  # For example:
-  #   make sure the mock client gets appropriate output
-  #   make sure the next round isn't played until both clients say they are ready to play
-  #   ...
 end

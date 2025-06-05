@@ -15,6 +15,7 @@ class WarGame
   def start
     deck.shuffle!
     deal_cards
+    self
   end
 
   def winner
