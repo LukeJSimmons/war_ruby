@@ -5,10 +5,10 @@ class WarGame
   attr_reader :deck, :player1, :player2
   attr_accessor :rounds
 
-  def initialize
+  def initialize(players)
     @deck = CardDeck.new
-    @player1 = WarPlayer.new('Player 1')
-    @player2 = WarPlayer.new('Player 2')
+    @player1 = players.first
+    @player2 = players[1]
     @rounds = 0
   end
 

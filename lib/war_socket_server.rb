@@ -34,8 +34,8 @@ class WarSocketServer
     client = @server.accept_nonblock
 
     player_name = request_player_name_from(client) until player_name
-    players << WarPlayer.new(player_name,[],client)
     
+    players << WarPlayer.new(player_name,[],client)
     clients << client
     
     message_client(client, "Welcome to war #{player_name}!")
@@ -50,7 +50,7 @@ class WarSocketServer
     message_all_clients("#{players.first.name} vs #{players[1].name}")
     message_all_clients("Press any key to continue:")
 
-    game = WarGame.new
+    game = WarGame.new(players)
     games << game
     game.start
   end
@@ -89,10 +89,12 @@ class WarSocketServer
 
   def request_player_name_from(client)
     message_client(client, "Please input your name:")
-    sleep(0.2)
-    begin
-      client.read_nonblock(1000).chomp
-    rescue IO::WaitReadable
+    until player_name
+      sleep(0.2)
+      begin
+        client.read_nonblock(1000).chomp
+      rescue IO::WaitReadable
+      end
     end
   end
 
