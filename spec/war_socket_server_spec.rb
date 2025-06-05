@@ -32,7 +32,7 @@ describe WarSocketServer do
     @clients = []
     @server = WarSocketServer.new
     @server.start
-    sleep 0.25 # Ensure server is ready for clients
+    sleep 0.2 # Ensure server is ready for clients
   end
 
   after(:each) do
@@ -58,20 +58,20 @@ describe WarSocketServer do
       it 'asks for client player name' do
          client1.provide_input('jim')
         @server.accept_new_client
-        expect(client1.capture_output). to match /name/i
+        expect(client1.capture_output). to match (/name/i)
       end
 
       it 'client can send player name' do
         client1.provide_input('jim')
         @server.accept_new_client
-        expect(client1.capture_output).to match /jim/i
+        expect(client1.capture_output).to match (/jim/i)
       end
     end
 
     describe '#message_client' do
       it 'can send a message to client' do
         @server.accept_new_client("Player 1")
-        expect(client1.capture_output). to match /welcome/i
+        expect(client1.capture_output). to match (/welcome/i)
       end
     end
 
@@ -102,7 +102,7 @@ describe WarSocketServer do
       end
 
       it 'sends a welcome message to each client' do
-        expect(client1.capture_output).to match /welcome/i
+        expect(client1.capture_output).to match (/welcome/i)
       end
     end
 
@@ -117,8 +117,8 @@ describe WarSocketServer do
 
         @server.create_game_if_possible
         
-        expect(client1.capture_output).to match /start/i
-        expect(client2.capture_output).to match /start/i
+        expect(client1.capture_output).to match (/start/i)
+        expect(client2.capture_output).to match (/start/i)
       end
 
       it 'displays names to all clients when ready to start' do
@@ -127,8 +127,8 @@ describe WarSocketServer do
 
         @server.create_game_if_possible
         
-        expect(client1.capture_output).to match /Player 2/i
-        expect(client2.capture_output).to match /Player 1/i
+        expect(client1.capture_output).to match (/Player 2/i)
+        expect(client2.capture_output).to match (/Player 1/i)
       end
     end
 
@@ -144,7 +144,7 @@ describe WarSocketServer do
 
         expect {
           @server.run_game(game)
-        }.to change(client1, :capture_output).to match /took/i
+        }.to change(client1, :capture_output).to match (/took/i)
       end
 
       it 'displays winner message' do
@@ -152,7 +152,7 @@ describe WarSocketServer do
 
         expect {
           @server.run_game(game)
-        }.to change(client1, :capture_output).to match /winner/i
+        }.to change(client1, :capture_output).to match (/winner/i)
       end
     end
 
