@@ -32,7 +32,7 @@ describe WarSocketServer do
     @clients = []
     @server = WarSocketServer.new
     @server.start
-    sleep 0.1 # Ensure server is ready for clients
+    sleep 0.2 # Ensure server is ready for clients
   end
 
   after(:each) do
