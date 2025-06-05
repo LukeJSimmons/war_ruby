@@ -1,3 +1,5 @@
+require_relative 'spec_helper'
+
 require 'socket'
 require_relative '../lib/war_socket_server'
 
@@ -30,7 +32,7 @@ describe WarSocketServer do
     @clients = []
     @server = WarSocketServer.new
     @server.start
-    sleep 0.2 # Ensure server is ready for clients
+    sleep 0.25 # Ensure server is ready for clients
   end
 
   after(:each) do

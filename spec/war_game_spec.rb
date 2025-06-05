@@ -1,3 +1,5 @@
+require_relative 'spec_helper'
+
 require_relative '../lib/war_game'
 
 describe 'WarGame' do
