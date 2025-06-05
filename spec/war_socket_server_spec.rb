@@ -54,13 +54,14 @@ describe WarSocketServer do
 
     describe '#accept_new_client' do
       it 'asks for client player name' do
-        @server.accept_new_client(nil)
+         client1.provide_input('jim')
+        @server.accept_new_client
         expect(client1.capture_output). to match /name/i
       end
 
       it 'client can send player name' do
         client1.provide_input('jim')
-        @server.accept_new_client(nil)
+        @server.accept_new_client
         expect(client1.capture_output).to match /jim/i
       end
     end
@@ -116,6 +117,16 @@ describe WarSocketServer do
         
         expect(client1.capture_output).to match /start/i
         expect(client2.capture_output).to match /start/i
+      end
+
+      it 'displays names to all clients when ready to start' do
+        client1.capture_output
+        client2.capture_output
+
+        @server.create_game_if_possible
+        
+        expect(client1.capture_output).to match /Player 2/i
+        expect(client2.capture_output).to match /Player 1/i
       end
     end
 

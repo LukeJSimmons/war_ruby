@@ -30,28 +30,35 @@ class WarSocketServer
     @server = TCPServer.new(port_number)
   end
 
-  def accept_new_client(player_name="Random Player")
+  def accept_new_client(player_name=nil)
     client = @server.accept_nonblock
 
     unless player_name
       message_client(client, "Please input your name:")
-      name = client.read_nonblock(1000)
-      message_client(client, "Hi #{name}!") if name
+      until player_name
+        sleep(0.2)
+        begin
+          player_name = client.read_nonblock(1000).chomp
+        rescue IO::WaitReadable
+        end
+      end
     end
 
     players << WarPlayer.new(player_name,[],client)
     clients << client
-    message_client(client, "Welcome to war!")
+    message_client(client, "Welcome to war #{player_name}!")
+    message_all_clients("Waiting for players...") unless clients.count > 1
     # associate player and client
   rescue IO::WaitReadable, Errno::EINTR
     # puts "No client to accept"
   end
 
   def create_game_if_possible
-    message_all_clients("Waiting for players...")
     return unless players.count == 2
 
     message_all_clients("We're ready to start")
+    message_all_clients("#{players.first.name} vs #{players[1].name}")
+    message_all_clients("Press any key to continue:")
 
     game = WarGame.new
     game.start
@@ -70,7 +77,6 @@ class WarSocketServer
     clients.each do |client|
       sleep(0.1) if needs_client_input
       begin
-        client.puts "Press any key to continue:"
         responses << client.read_nonblock(1000)
       rescue IO::WaitReadable
       end
@@ -79,7 +85,8 @@ class WarSocketServer
     if responses.count > 1 || !needs_client_input
       round_results = game.play_round
       responses.clear
-      clients.each { |client| client.puts round_results }
+      message_all_clients(round_results)
+      message_all_clients("Press any key to continue:")
     end
   end
 
