@@ -85,7 +85,7 @@ class WarSocketServer
     if responses.count > 1 || !needs_client_input
       round_results = game.play_round
       responses.clear
-      message_all_clients("\n" + round_results + "\n\n")
+      message_all_clients("\n#{round_results}\n")
       message_all_clients("Press any key to continue:")
     end
   end
