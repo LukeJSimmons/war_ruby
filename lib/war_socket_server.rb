@@ -33,16 +33,7 @@ class WarSocketServer
   def accept_new_client(player_name=nil)
     client = @server.accept_nonblock
 
-    unless player_name
-      message_client(client, "Please input your name:")
-      until player_name
-        sleep(0.2)
-        begin
-          player_name = client.read_nonblock(1000).chomp
-        rescue IO::WaitReadable
-        end
-      end
-    end
+    player_name = request_player_name_from(client) until player_name
 
     players << WarPlayer.new(player_name,[],client)
     clients << client
@@ -102,5 +93,14 @@ class WarSocketServer
 
   def message_all_clients(message)
     clients.each { |client| client.puts message }
+  end
+
+  def request_player_name_from(client)
+    message_client(client, "Please input your name:")
+    sleep(0.2)
+    begin
+      client.read_nonblock(1000).chomp
+    rescue IO::WaitReadable
+    end
   end
 end
