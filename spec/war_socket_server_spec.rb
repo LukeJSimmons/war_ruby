@@ -65,6 +65,13 @@ describe WarSocketServer do
       end
     end
 
+    describe '#message_client' do
+      it 'can send a message to client' do
+        @server.accept_new_client("Player 1")
+        expect(client1.capture_output). to match /welcome/i
+      end
+    end
+
 
     describe '#create_game_if_possible' do
       it 'returns nil if only one player' do
@@ -181,7 +188,6 @@ describe WarSocketServer do
           @server.run_round(game)
         }.to change(@server, :responses).to ["first\n"]
       end
-
     end
   end
 

@@ -34,23 +34,24 @@ class WarSocketServer
     client = @server.accept_nonblock
 
     unless player_name
-      client.puts "Please input your name:"
+      message_client(client, "Please input your name:")
       name = client.read_nonblock(1000)
-      client.puts "Hi #{name}!" if name
+      message_client(client, "Hi #{name}!") if name
     end
 
     players << WarPlayer.new(player_name,[],client)
     clients << client
-    client.puts "Welcome to war!"
+    message_client(client, "Welcome to war!")
     # associate player and client
   rescue IO::WaitReadable, Errno::EINTR
     # puts "No client to accept"
   end
 
   def create_game_if_possible
+    message_all_clients("Waiting for players...")
     return unless players.count == 2
 
-    clients.each { |client| client.puts "We're ready to start" }
+    message_all_clients("We're ready to start")
 
     game = WarGame.new
     game.start
@@ -69,6 +70,7 @@ class WarSocketServer
     clients.each do |client|
       sleep(0.1) if needs_client_input
       begin
+        client.puts "Press any key to continue:"
         responses << client.read_nonblock(1000)
       rescue IO::WaitReadable
       end
@@ -83,5 +85,15 @@ class WarSocketServer
 
   def stop
     @server.close if @server
+  end
+
+  private
+
+  def message_client(client, message)
+    client.puts message
+  end
+
+  def message_all_clients(message)
+    clients.each { |client| client.puts message }
   end
 end
